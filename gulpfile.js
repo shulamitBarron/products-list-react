@@ -7,21 +7,22 @@ const inject = require('gulp-inject-string');
 const replace = require('gulp-replace');
 const sass    = require('gulp-sass');
 
-const CLIENT_PATH = './';
+const CLIENT_PATH = 'src/';
 const CLIENT_DIST_PATH = './dist';
-
 
 /** ------------------- CLIENT ----------------------------- **/
 
-gulp.task('createContainer', () => {
+gulp.task('createContainer', async  () => {
 	let className = capitalizeFirstLate(getArg('className'));
+	let folder = getArg('folder');
+	if(folder) folder=folder +"/";
 	let classNameLowerCase = lowerCaseFirstLater(className);
 
 	if (!validateName(className, '--className', true)) return;
 
 	createTemplate(
 		'./generator/templates/client/container-template',
-		`${process.env.INIT_CWD}/${className}/index.tsx`,
+		`${process.env.INIT_CWD}/${CLIENT_PATH}${folder}${className}/index.tsx`,
 		{
 			className,
 			classNameLowerCase
@@ -29,15 +30,17 @@ gulp.task('createContainer', () => {
 	);
 });
 
-gulp.task('createFormContainer', () => {
+gulp.task('createFormContainer', async () => {
 	let className = capitalizeFirstLate(getArg('className'));
+	let folder = getArg('folder');
+	if(folder) folder=folder +"/";
 	let classNameLowerCase = lowerCaseFirstLater(className);
 
 	if (!validateName(className, '--className', true)) return;
 
 	createTemplate(
 		'./generator/templates/client/form-container-template',
-		`${process.env.INIT_CWD}/${className}/index.tsx`,
+		`${process.env.INIT_CWD}/${CLIENT_PATH}${folder}${className}/index.tsx`,
 		{
 			className,
 			classNameLowerCase
@@ -46,28 +49,31 @@ gulp.task('createFormContainer', () => {
 
 });
 
-gulp.task('createComponent', () => {
-	let componentName = lowerCaseFirstLater(getArg('name'));
+gulp.task('createComponent',async  () => {
+	let componentName = capitalizeFirstLate(getArg('name'));
+	let folder = getArg('folder');
+	if(folder) folder=folder +"/";
 
 	if (!validateName(componentName, '--name')) return;
 
 	createTemplate(
 		'./generator/templates/client/component-template',
-		`${process.env.INIT_CWD}/${componentName}/index.tsx`,
+		`${process.env.INIT_CWD}/${CLIENT_PATH}${folder}/${componentName}/index.tsx`,
 		{name: componentName}
 	);
 
 });
 
-gulp.task('createSaga', () => {
+gulp.task('createSaga',async () => {
 	let sagaName = lowerCaseFirstLater(getArg('name'));
+	let folder = 'actions/sagas'
 
 	if (!validateName(sagaName, '--name', false)) return;
 
 
 	createTemplate(
 		'./generator/templates/client/saga-template',
-		`${process.env.INIT_CWD}/${sagaName}/index.ts`,
+		`${process.env.INIT_CWD}/${CLIENT_PATH}${folder}/${sagaName}/index.ts`,
 		{
 			sagaName,
 			sagaNameUppercase: capitalizeFirstLate(sagaName)
@@ -76,7 +82,7 @@ gulp.task('createSaga', () => {
 
 	createTemplate(
 		'./generator/templates/client/saga-index',
-		`${process.env.INIT_CWD}/${sagaName}/sagas.ts`,
+		`${process.env.INIT_CWD}/${CLIENT_PATH}${folder}/${sagaName}/sagas.ts`,
 		{
 			sagaName,
 			sagaNameUppercase: capitalizeFirstLate(sagaName)
@@ -85,7 +91,7 @@ gulp.task('createSaga', () => {
 
 	createTemplate(
 		'./generator/templates/client/saga-manager',
-		`${process.env.INIT_CWD}/${sagaName}/manager.ts`,
+		`${process.env.INIT_CWD}/${CLIENT_PATH}${folder}/${sagaName}/manager.ts`,
 		{
 			sagaName,
 			sagaNameUppercase: capitalizeFirstLate(sagaName)
@@ -94,15 +100,16 @@ gulp.task('createSaga', () => {
 
 });
 
-gulp.task('createRedux', () => {
+gulp.task('createRedux',async () => {
 	let reducerName = lowerCaseFirstLater(getArg('name'));
 	let reducerNameCapital = capitalizeFirstLate(getArg('name'));
+	let folder = 'actions/redux'
 
 	if (!validateName(reducerName, '--name', false)) return;
 
 	createTemplate(
 		'./generator/templates/client/redux-template',
-		`${process.env.INIT_CWD}/${reducerName}/index.ts`,
+		`${process.env.INIT_CWD}/${CLIENT_PATH}${folder}/${reducerName}/index.ts`,
 		{
 			reducerName,
 			reducerNameCapital
@@ -111,7 +118,7 @@ gulp.task('createRedux', () => {
 
 	createTemplate(
 		'./generator/templates/client/redux-interfaces-template',
-		`${process.env.INIT_CWD}/${reducerName}/interfaces.ts`,
+		`${process.env.INIT_CWD}/${CLIENT_PATH}${folder}/${reducerName}/interfaces.ts`,
 		{
 			reducerName,
 			reducerNameCapital
