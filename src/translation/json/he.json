@@ -12,6 +12,7 @@
     "totalPriceTitle": "Total Price"
   },
   "products":{
-    
+    "name":"שם",
+    "price": "מחיר"
   }
 }

@@ -12,6 +12,7 @@
     "totalPriceTitle": "Prix Total"
   },
   "products":{
-    
+    "name":"Name",
+    "price": "Price"
   }
 }
