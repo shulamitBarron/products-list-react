@@ -47,9 +47,11 @@ const ProductTable: React.FC<Props> = (props: Props) => {
 	return (
 		<Table>
 			<thead>
-				<th>#</th>
-				<th>{translate('products.name')}</th>
-				<th>{translate('products.price')}</th>
+				<tr>
+					<th>#</th>
+					<th>{translate('products.name')}</th>
+					<th>{translate('products.price')}</th>
+				</tr>
 			</thead>
 			<tbody>
 				{renderRows()}

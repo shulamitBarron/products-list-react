@@ -5,8 +5,6 @@ import {
 	ProductState, TypesNames, ActionCreator, ProductAction
 } from './interfaces';
 
-// TODO: Do not for get add your reducer to index file
-
 /* ------------- Types and Action Creators ------------- */
 
 const { Creators } = createActions<TypesNames, ActionCreator>({
@@ -37,6 +35,6 @@ const setExampleReducer = (state: ImmutableObject<ProductState>, action: Product
 
 /* ------------- Hookup Reducers To Types ------------- */
 
-export const reducer = createReducer<ImmutableObject<any, any>(INITIAL_STATE, {
+export const reducer = createReducer(INITIAL_STATE, {
 	[ProductTypes.SET_EXAMPLE]: setExampleReducer
 });
