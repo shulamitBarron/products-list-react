@@ -1,19 +1,21 @@
 import { Action } from 'redux';
 
 export interface ProductState {
-	exampleData: string;
+	products: Product[];
 }
 
 export enum TypesNames {
-	SET_EXAMPLE = 'SET_EXAMPLE'
+	GET_PRODUCTS = 'GET_PRODUCTS',
+	SET_PRODUCTS = 'SET_PRODUCTS',
 }
 
 export interface ActionCreator {
-	setExample: (exampleData: string) => ProductAction;
+	getProducts: () => Action<TypesNames.GET_PRODUCTS>;
+	setProducts: (products: Product[]) => SetProductAction;
 }
 
-export interface ProductAction extends Action<TypesNames.SET_EXAMPLE> {
-	exampleData: string;
+export interface SetProductAction extends Action<TypesNames.SET_PRODUCTS> {
+	products: Product[];
 }
 
 export interface Product {

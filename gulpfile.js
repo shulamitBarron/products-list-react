@@ -72,7 +72,7 @@ gulp.task('createSaga',async () => {
 
 
 	createTemplate(
-		'./generator/templates/client/saga-template',
+		'./generator/templates/client/saga-index',
 		`${process.env.INIT_CWD}/${CLIENT_PATH}${folder}/${sagaName}/index.ts`,
 		{
 			sagaName,
@@ -81,7 +81,7 @@ gulp.task('createSaga',async () => {
 	);
 
 	createTemplate(
-		'./generator/templates/client/saga-index',
+		'./generator/templates/client/saga-template',
 		`${process.env.INIT_CWD}/${CLIENT_PATH}${folder}/${sagaName}/sagas.ts`,
 		{
 			sagaName,
