@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { baseConnect } from '@base/features/base-redux-react-connect';
-// import { ApplicationState } from 'actions/redux';
 import { Col, Container, Row } from 'react-bootstrap';
-import ProductSearchBar from '../ProductSearchBar';
-import { Product } from 'actions/redux/product/interfaces';
-import ProductTable from '../ProductTable';
-import ProductView from '../ProductView';
 import { TranslateFunction } from 'react-localize-redux';
 import { InjectedFormProps } from 'redux-form';
 
-// import FilterableProductTableActions, { filterableProductTableSelector } from 'actions/redux/filterableProductTable';
+import { ApplicationState } from 'actions/redux';
+import { Product } from 'actions/redux/product/interfaces';
+import ProductActions, { productSelector } from 'actions/redux/product';
+import { Dispatch } from 'redux';
+
+import ProductSearchBar from '../ProductSearchBar';
+import ProductTable from '../ProductTable';
+import ProductView from '../ProductView';
 
 interface Props extends InjectedFormProps {
 	translate: TranslateFunction;
@@ -17,6 +19,7 @@ interface Props extends InjectedFormProps {
 
 interface OwnProps {
 	products: Product[];
+	getProductsList: () => void;
 }
 
 interface State {
@@ -39,6 +42,13 @@ class FilterableProductTable extends React.Component<Props & OwnProps, State> {
 		this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
 		this.handleProductSelected = this.handleProductSelected.bind(this);
 		this.handleInStockChange = this.handleInStockChange.bind(this);
+	}
+
+	componentDidMount() {
+		const { getProductsList, products } = this.props;
+		if (products.length === 0) {
+			getProductsList();
+		}
 	}
 
 	handleProductSelected(selectedProduct: Product) {
@@ -88,11 +98,11 @@ class FilterableProductTable extends React.Component<Props & OwnProps, State> {
 }
 
 export default baseConnect(FilterableProductTable,
-	() => {
+	(state: ApplicationState) => {
 		return {
-
+			products: productSelector.getProductsList(state)
 		};
 	},
-	{
-
-	}) as React.ComponentType<any>;
+	(dispatch: Dispatch) => ({
+		getProductsList: () => dispatch(ProductActions.getProducts())
+	}));
