@@ -5,7 +5,7 @@ import { TranslateFunction } from 'react-localize-redux';
 import { InjectedFormProps } from 'redux-form';
 
 import { ApplicationState } from 'actions/redux';
-import { Product } from 'actions/redux/product/interfaces';
+import { Product, ProductFilter } from 'actions/redux/product/interfaces';
 import ProductActions, { productSelector } from 'actions/redux/product';
 import { Dispatch } from 'redux';
 
@@ -20,11 +20,11 @@ interface Props extends InjectedFormProps {
 interface OwnProps {
 	products: Product[];
 	getProductsList: () => void;
+	filter: ProductFilter;
+	setFilter: (filter: ProductFilter) => void;
 }
 
 interface State {
-	filterText: string;
-	inStockOnly: boolean;
 	selectedProduct: Product | null;
 }
 
@@ -33,8 +33,6 @@ class FilterableProductTable extends React.Component<Props & OwnProps, State> {
 		super(props);
 
 		this.state = {
-			filterText: '',
-			inStockOnly: false,
 			selectedProduct: null
 		};
 
@@ -56,16 +54,18 @@ class FilterableProductTable extends React.Component<Props & OwnProps, State> {
 	}
 
 	handleFilterTextChange(filterText: string) {
-		this.setState({ filterText });
+		const { setFilter, filter } = this.props;
+		setFilter({ ...filter, filterText });
 	}
 
 	handleInStockChange(inStockOnly: boolean) {
-		this.setState({ inStockOnly });
+		const { setFilter, filter } = this.props;
+		setFilter({ ...filter, inStockOnly });
 	}
 
 	render() {
-		const { products, translate } = this.props;
-		const { filterText, inStockOnly, selectedProduct } = this.state;
+		const { filter: { filterText, inStockOnly }, products, translate } = this.props;
+		const { selectedProduct } = this.state;
 
 		return (
 			<Container fluid>
@@ -100,9 +100,11 @@ class FilterableProductTable extends React.Component<Props & OwnProps, State> {
 export default baseConnect(FilterableProductTable,
 	(state: ApplicationState) => {
 		return {
-			products: productSelector.getProductsList(state)
+			products: productSelector.getProductsList(state),
+			filter: productSelector.getFilter(state)
 		};
 	},
 	(dispatch: Dispatch) => ({
-		getProductsList: () => dispatch(ProductActions.getProducts())
+		getProductsList: () => dispatch(ProductActions.getProducts()),
+		setFilter: (filter: ProductFilter) => dispatch(ProductActions.setFilter(filter))
 	}));
