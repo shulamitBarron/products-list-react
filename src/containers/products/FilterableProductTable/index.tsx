@@ -82,8 +82,6 @@ class FilterableProductTable extends React.Component<Props & OwnProps, State> {
 						<ProductTable
 							products={products}
 							translate={translate}
-							filterText={filterText}
-							inStockOnly={inStockOnly}
 							selectedProductId={selectedProduct ? selectedProduct.id : ''}
 							onProductSelected={this.handleProductSelected}
 						/>

@@ -20,5 +20,5 @@ class Products extends React.Component<Props> {
 	}
 }
 
-export default baseConnect(Products, () => { }, () => { });
+export default baseConnect(Products, () => { return {}; }, () => { return {}; });
 
