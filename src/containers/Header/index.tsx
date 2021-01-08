@@ -58,6 +58,9 @@ class Header extends React.Component<Props, HeaderState> {
 							<li>
 								<Link to={RoutesPath.ROOT}>Home</Link>
 							</li>
+							<li>
+								<Link to={{ pathname: 'product/0' }}> {translate('products.createProduct')}</Link>
+							</li>
 						</ul>
 
 						<ul className="navbar-right">

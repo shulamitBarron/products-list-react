@@ -87,7 +87,7 @@ class FilterableProductTable extends React.Component<Props & OwnProps, State> {
 						/>
 					</Col>
 					<Col lg={4}>
-						{selectedProduct != null && <ProductView product={selectedProduct} />}
+						{selectedProduct != null && <ProductView translate={translate} product={selectedProduct} />}
 					</Col>
 				</Row>
 			</Container>

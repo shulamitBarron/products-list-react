@@ -11,8 +11,16 @@
     "pageTitle": "Check-out",
     "totalPriceTitle": "Prix Total"
   },
-  "products":{
-    "name":"Name",
-    "price": "Price"
+  "products": {
+    "id": "Id",
+    "name": "Name",
+    "price": "Price",
+    "group": "Category",
+    "isInStock": "In Stock",
+    "picture": "Picture",
+    "description": "Description",
+    "registered": "Date",
+    "createProduct": "Create Product",
+    "updateProduct": "Update Product"
   }
 }

@@ -11,8 +11,16 @@
     "pageTitle": "Checkout",
     "totalPriceTitle": "Total Price"
   },
-  "products":{
-    "name":"שם",
-    "price": "מחיר"
+  "products": {
+    "id": "מזהה",
+    "name": "שם",
+    "price": "מחיר",
+    "group": "קטגוריה",
+    "isInStock": "במלאי",
+    "picture": "תמונה",
+    "description": "תאור",
+    "registered": "תאריך",
+    "createProduct": "יצירת פריט",
+    "updateProduct": "עדכון פריט"
   }
 }
