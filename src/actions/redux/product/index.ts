@@ -1,4 +1,4 @@
-import Immutable, { ImmutableObject } from 'seamless-immutable';
+import Immutable, { ImmutableObject, from } from 'seamless-immutable';
 import { createReducer, createActions } from 'reduxsauce';
 import { ApplicationState } from '../index';
 import {
@@ -7,6 +7,9 @@ import {
 import { AnyAction } from 'redux';
 import { sortBy, includes, isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
+import { persistReducer } from 'redux-persist';
+import localStorage from 'redux-persist/lib/storage';
+import sessionStorage from 'redux-persist/lib/storage/session';
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -74,40 +77,49 @@ export const productSelector = {
 
 /* ------------- Reducers ------------- */
 
-const setProductsReducer = (state: ImmutableObject<ProductState>, action: SetProductsAction) => {
+const setProductsReducer = (state: ProductState, action: SetProductsAction) => {
 	const { products } = action;
-	return state.merge({
+	return from(state).merge({
 		products, loading: false, success: true, error: false
 	});
 };
 
-const setFilterProductReducer = (state: ImmutableObject<ProductState>, action: SetFilterProductAction) => {
+const setFilterProductReducer = (state: ProductState, action: SetFilterProductAction) => {
 	const { filter } = action;
-	return state.merge({ filter });
+	return from(state).merge({ filter });
 };
 
-const setProductReducer = (state: ImmutableObject<ProductState>, action: SetProductAction) => {
+const setProductReducer = (state: ProductState, action: SetProductAction) => {
 	const { product } = action;
 	const restProducts = state.products.filter((p: Product) => p.id !== product.id);
-	const newProducts = sortBy([...restProducts.asMutable(), product], ['group']);
-	return state.merge({
+	const newProducts = sortBy([...restProducts, product], ['group']);
+	return from(state).merge({
 		products: newProducts, loading: false, success: true, error: false
 	});
 };
 
-const setErrorReducer = (state: ImmutableObject<ProductState>) => {
-	return state.merge({ loading: false, success: false, error: true });
+const setErrorReducer = (state: ProductState) => {
+	return from(state).merge({ loading: false, success: false, error: true });
 };
 
-const setLoadReducer = (state: ImmutableObject<ProductState>) => {
-	return state.merge({ loading: true, success: false, error: false });
+const setLoadReducer = (state: ProductState) => {
+	return from(state).merge({ loading: true, success: false, error: false });
 };
 /* ------------- Hookup Reducers To Types ------------- */
 
-export const reducer = createReducer<ImmutableObject<ProductState>, AnyAction>(INITIAL_STATE, {
+const productReducer = createReducer<any, AnyAction>(INITIAL_STATE, {
 	[ProductTypes.SET_PRODUCTS]: setProductsReducer,
 	[ProductTypes.SET_FILTER]: setFilterProductReducer,
 	[ProductTypes.SET_PRODUCT]: setProductReducer,
 	[ProductTypes.PRODUCT_ERROR]: setErrorReducer,
 	[ProductTypes.LOAD_PRODUCT]: setLoadReducer,
 });
+
+const persistConfig = {
+	key: 'product',
+	storage: localStorage,
+	whitelist: ['products']
+};
+
+export const reducer = persistReducer(persistConfig, productReducer);
+
