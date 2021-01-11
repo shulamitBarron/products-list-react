@@ -47,4 +47,4 @@ const ProductTable: React.FC<Props> = (props: Props) => {
 	);
 };
 
-export default ProductTable;
+export default React.memo(ProductTable);

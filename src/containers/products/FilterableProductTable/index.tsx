@@ -28,7 +28,7 @@ interface State {
 	selectedProduct: Product | null;
 }
 
-class FilterableProductTable extends React.Component<Props & OwnProps, State> {
+class FilterableProductTable extends React.PureComponent<Props & OwnProps, State> {
 	constructor(props: Props & OwnProps) {
 		super(props);
 

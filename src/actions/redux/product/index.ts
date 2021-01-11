@@ -6,6 +6,7 @@ import {
 } from './interfaces';
 import { AnyAction } from 'redux';
 import { sortBy, includes, isEmpty } from 'lodash';
+import { createSelector } from 'reselect';
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -41,11 +42,7 @@ const getFilter = (state: ApplicationState) => state.product.filter;
 const getIsInStock = (state: ApplicationState) => state.product.filter.inStockOnly;
 const getFilterText = (state: ApplicationState) => state.product.filter.filterText;
 
-const getProductsList = (state: ApplicationState) => {
-	const products: Product[] = getProducts(state);
-	const inStockOnly: boolean = getIsInStock(state);
-	const filterText: string = getFilterText(state);
-
+const getProductsList = (products: Product[], inStockOnly: boolean, filterText: string) => {
 	return products.filter((product: Product) => {
 		if (!isProductContainsText(product, filterText)) return false;
 		if (inStockOnly && !product.isInStock) return false;
@@ -60,8 +57,13 @@ const isProductContainsText = (product: Product, search: string) => {
 	return false;
 };
 
+const getProductsSelector = createSelector(
+	[getProducts, getIsInStock, getFilterText],
+	getProductsList
+);
+
 export const productSelector = {
-	getProductsList,
+	getProductsList: getProductsSelector,
 	getFilter,
 	getProduct: (state: ApplicationState, id: string) => {
 		return state.product.products.find((product) => product.id === id);
