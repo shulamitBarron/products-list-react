@@ -26,6 +26,7 @@ interface OwnProps {
 
 interface State {
 	selectedProduct: Product | null;
+	idFilterText: string;
 }
 
 class FilterableProductTable extends React.PureComponent<Props & OwnProps, State> {
@@ -33,12 +34,13 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps, State
 		super(props);
 
 		this.state = {
-			selectedProduct: null
+			selectedProduct: null,
+			idFilterText: ''
 		};
 
 		this.handleProductSelected = this.handleProductSelected.bind(this);
 		this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
-		this.handleProductSelected = this.handleProductSelected.bind(this);
+		this.handleIdFilterTextChange = this.handleIdFilterTextChange.bind(this);
 		this.handleInStockChange = this.handleInStockChange.bind(this);
 	}
 
@@ -57,15 +59,23 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps, State
 		const { setFilter, filter } = this.props;
 		setFilter({ ...filter, filterText });
 	}
+	
+	handleIdFilterTextChange(idFilterText: string) {
+		this.setState({ idFilterText });
+	}
 
 	handleInStockChange(inStockOnly: boolean) {
 		const { setFilter, filter } = this.props;
 		setFilter({ ...filter, inStockOnly });
 	}
 
+
+
 	render() {
 		const { filter: { filterText, inStockOnly }, products, translate } = this.props;
-		const { selectedProduct } = this.state;
+		const { selectedProduct, idFilterText } = this.state;
+
+		const fFilteredProducts = products.filter(product => !idFilterText || product.id === idFilterText);
 
 		return (
 			<Container fluid>
@@ -73,14 +83,16 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps, State
 					<ProductSearchBar
 						filterText={filterText}
 						inStockOnly={inStockOnly}
+						idFilterText={idFilterText}
 						onFilterTextChange={this.handleFilterTextChange}
+						onIdFilterTextChange={this.handleIdFilterTextChange}
 						onInStockChange={this.handleInStockChange}
 					/>
 				</Row>
 				<Row>
 					<Col lg={8}>
 						<ProductTable
-							products={products}
+							products={fFilteredProducts}
 							translate={translate}
 							selectedProductId={selectedProduct ? selectedProduct.id : ''}
 							onProductSelected={this.handleProductSelected}
