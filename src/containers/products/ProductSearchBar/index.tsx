@@ -26,7 +26,7 @@ const ProductSearchBar: React.FC<Props> = (props: Props) => {
 			<Form.Group>
 				<Form.Control
 					type="text"
-					placeholder="Search..."
+					placeholder="Search By Name And Price..."
 					value={filterText}
 					onChange={handleFilterTextChange}
 				/>
