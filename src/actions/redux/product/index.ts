@@ -19,6 +19,7 @@ const { Creators } = createActions<TypesNames, ActionCreator>({
 	setSelectedProduct: ['selectedProduct'],
 	createProduct: ['product'],
 	updateProduct: ['product'],
+	deleteProduct: ['id'],
 	setProduct: ['product'],
 	loadProduct: [],
 });
@@ -77,6 +78,7 @@ const getProductsSelector = createSelector(
 );
 
 export const productSelector = {
+	getAllProducts: getProducts,
 	getProductsList: getProductsSelector,
 	getFilter,
 	getSelectedProduct,

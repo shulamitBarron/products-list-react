@@ -24,6 +24,7 @@ interface OwnProps {
 	selectedProduct: Product | null;
 	setFilter: (filter: ProductFilter) => void;
 	setSelectedProduct: (selectedProduct: Product) => void;
+	deleteProduct: (id: string) => void;
 }
 
 class FilterableProductTable extends React.PureComponent<Props & OwnProps> {
@@ -65,7 +66,7 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps> {
 
 	render() {
 		const {
-			filter: { filterText, inStockOnly, idFilterText }, selectedProduct, products, translate
+			filter: { filterText, inStockOnly, idFilterText }, selectedProduct, products, translate, deleteProduct
 		} = this.props;
 
 		return (
@@ -90,7 +91,7 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps> {
 						/>
 					</Col>
 					<Col lg={4}>
-						{selectedProduct != null && <ProductView translate={translate} product={selectedProduct} />}
+						{selectedProduct != null && <ProductView translate={translate} product={selectedProduct} deleteProduct={deleteProduct} />}
 					</Col>
 				</Row>
 			</Container>
@@ -109,5 +110,6 @@ export default baseConnect(FilterableProductTable,
 	(dispatch: Dispatch) => ({
 		getProductsList: () => dispatch(ProductActions.getProducts()),
 		setFilter: (filter: ProductFilter) => dispatch(ProductActions.setFilter(filter)),
-		setSelectedProduct: (selectedProduct: Product) => dispatch(ProductActions.setSelectedProduct(selectedProduct))
+		setSelectedProduct: (selectedProduct: Product) => dispatch(ProductActions.setSelectedProduct(selectedProduct)),
+		deleteProduct: (id: string) => dispatch(ProductActions.deleteProduct(id))
 	}));

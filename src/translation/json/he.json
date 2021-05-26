@@ -21,6 +21,7 @@
     "description": "תאור",
     "registered": "תאריך",
     "createProduct": "יצירת פריט",
-    "updateProduct": "עדכון פריט"
+    "updateProduct": "עדכון פריט",
+    "deleteProduct": "מחיקת פריט"
   }
 }

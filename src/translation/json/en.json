@@ -21,6 +21,7 @@
     "description": "Description",
     "registered": "Date",
     "createProduct": "Create Product",
-    "updateProduct": "Update Product"
+    "updateProduct": "Update Product",
+    "deleteProduct": "Delete Product"
   }
 }
