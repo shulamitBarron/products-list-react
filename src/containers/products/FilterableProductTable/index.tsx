@@ -21,22 +21,14 @@ interface OwnProps {
 	products: Product[];
 	getProductsList: () => void;
 	filter: ProductFilter;
-	setFilter: (filter: ProductFilter) => void;
-}
-
-interface State {
 	selectedProduct: Product | null;
-	idFilterText: string;
+	setFilter: (filter: ProductFilter) => void;
+	setSelectedProduct: (selectedProduct: Product) => void;
 }
 
-class FilterableProductTable extends React.PureComponent<Props & OwnProps, State> {
+class FilterableProductTable extends React.PureComponent<Props & OwnProps> {
 	constructor(props: Props & OwnProps) {
 		super(props);
-
-		this.state = {
-			selectedProduct: null,
-			idFilterText: ''
-		};
 
 		this.handleProductSelected = this.handleProductSelected.bind(this);
 		this.handleFilterTextChange = this.handleFilterTextChange.bind(this);
@@ -52,7 +44,8 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps, State
 	}
 
 	handleProductSelected(selectedProduct: Product) {
-		this.setState({ selectedProduct });
+		const { setSelectedProduct } = this.props;
+		setSelectedProduct(selectedProduct);
 	}
 
 	handleFilterTextChange(filterText: string) {
@@ -61,7 +54,8 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps, State
 	}
 	
 	handleIdFilterTextChange(idFilterText: string) {
-		this.setState({ idFilterText });
+		const { setFilter, filter } = this.props;
+		setFilter({ ...filter, idFilterText });
 	}
 
 	handleInStockChange(inStockOnly: boolean) {
@@ -69,13 +63,10 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps, State
 		setFilter({ ...filter, inStockOnly });
 	}
 
-
-
 	render() {
-		const { filter: { filterText, inStockOnly }, products, translate } = this.props;
-		const { selectedProduct, idFilterText } = this.state;
-
-		const fFilteredProducts = products.filter(product => !idFilterText || product.id === idFilterText);
+		const {
+			filter: { filterText, inStockOnly, idFilterText }, selectedProduct, products, translate
+		} = this.props;
 
 		return (
 			<Container fluid>
@@ -92,7 +83,7 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps, State
 				<Row>
 					<Col lg={8}>
 						<ProductTable
-							products={fFilteredProducts}
+							products={products}
 							translate={translate}
 							selectedProductId={selectedProduct ? selectedProduct.id : ''}
 							onProductSelected={this.handleProductSelected}
@@ -111,10 +102,12 @@ export default baseConnect(FilterableProductTable,
 	(state: ApplicationState) => {
 		return {
 			products: productSelector.getProductsList(state),
-			filter: productSelector.getFilter(state)
+			filter: productSelector.getFilter(state),
+			selectedProduct: productSelector.getSelectedProduct(state)
 		};
 	},
 	(dispatch: Dispatch) => ({
 		getProductsList: () => dispatch(ProductActions.getProducts()),
-		setFilter: (filter: ProductFilter) => dispatch(ProductActions.setFilter(filter))
+		setFilter: (filter: ProductFilter) => dispatch(ProductActions.setFilter(filter)),
+		setSelectedProduct: (selectedProduct: Product) => dispatch(ProductActions.setSelectedProduct(selectedProduct))
 	}));

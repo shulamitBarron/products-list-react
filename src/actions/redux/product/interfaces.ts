@@ -3,6 +3,7 @@ import { Action } from 'redux';
 export interface ProductState {
 	products: Product[];
 	filter: ProductFilter;
+	selectedProduct: Product | null;
 	loading: boolean;
 	success: boolean;
 	error: boolean;
@@ -12,6 +13,7 @@ export enum TypesNames {
 	GET_PRODUCTS = 'GET_PRODUCTS',
 	SET_PRODUCTS = 'SET_PRODUCTS',
 	SET_FILTER = 'SET_FILTER',
+	SET_SELECTED_PRODUCT = 'SET_SELECTED_PRODUCT',
 	CREATE_PRODUCT = 'CREATE_PRODUCT',
 	UPDATE_PRODUCT = 'UPDATE_PRODUCT',
 	SET_PRODUCT = 'SET_PRODUCT',
@@ -23,6 +25,7 @@ export interface ActionCreator {
 	getProducts: () => Action<TypesNames.GET_PRODUCTS>;
 	setProducts: (products: Product[]) => SetProductsAction;
 	setFilter: (filter: ProductFilter) => SetFilterProductAction;
+	setSelectedProduct: (product: Product | null) => SetSelectedProductAction;
 	createProduct: (product: Product) => CreateProductAction;
 	updateProduct: (product: Product) => UpdateProductAction;
 	setProduct: (product: Product) => SetProductAction;
@@ -36,12 +39,19 @@ export interface SetProductsAction extends Action<TypesNames.SET_PRODUCTS> {
 export interface SetFilterProductAction extends Action<TypesNames.SET_FILTER> {
 	filter: ProductFilter;
 }
+
+export interface SetSelectedProductAction extends Action<TypesNames.SET_SELECTED_PRODUCT> {
+	selectedProduct: Product | null;
+}
+
 export interface CreateProductAction extends Action<TypesNames.CREATE_PRODUCT> {
 	product: Product;
 }
+
 export interface UpdateProductAction extends Action<TypesNames.UPDATE_PRODUCT> {
 	product: Product;
 }
+
 export interface SetProductAction extends Action<TypesNames.SET_PRODUCT> {
 	product: Product;
 }
@@ -60,4 +70,5 @@ export class Product {
 export interface ProductFilter {
 	inStockOnly: boolean;
 	filterText: string;
+	idFilterText: string;
 }

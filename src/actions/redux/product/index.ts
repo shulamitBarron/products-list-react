@@ -1,15 +1,14 @@
-import Immutable, { ImmutableObject, from } from 'seamless-immutable';
+import Immutable, { from } from 'seamless-immutable';
 import { createReducer, createActions } from 'reduxsauce';
 import { ApplicationState } from '../index';
 import {
-	ProductState, TypesNames, ActionCreator, SetProductsAction, SetFilterProductAction, SetProductAction, Product
+	ProductState, TypesNames, ActionCreator, SetProductsAction, SetFilterProductAction, SetProductAction, Product, SetSelectedProductAction
 } from './interfaces';
 import { AnyAction } from 'redux';
 import { sortBy, includes, isEmpty } from 'lodash';
 import { createSelector } from 'reselect';
 import { persistReducer } from 'redux-persist';
 import localStorage from 'redux-persist/lib/storage';
-import sessionStorage from 'redux-persist/lib/storage/session';
 
 /* ------------- Types and Action Creators ------------- */
 
@@ -17,6 +16,7 @@ const { Creators } = createActions<TypesNames, ActionCreator>({
 	getProducts: [],
 	setProducts: ['products'],
 	setFilter: ['filter'],
+	setSelectedProduct: ['selectedProduct'],
 	createProduct: ['product'],
 	updateProduct: ['product'],
 	setProduct: ['product'],
@@ -32,8 +32,10 @@ const INITIAL_STATE = Immutable<ProductState>({
 	products: [],
 	filter: {
 		inStockOnly: true,
-		filterText: ''
+		filterText: '',
+		idFilterText: ''
 	},
+	selectedProduct: null,
 	loading: false,
 	success: false,
 	error: false,
@@ -41,13 +43,16 @@ const INITIAL_STATE = Immutable<ProductState>({
 
 /* ------------- Selectors ------------- */
 const getProducts = (state: ApplicationState) => state.product.products;
+const getSelectedProduct = (state: ApplicationState) => state.product.selectedProduct;
 const getFilter = (state: ApplicationState) => state.product.filter;
 const getIsInStock = (state: ApplicationState) => state.product.filter.inStockOnly;
 const getFilterText = (state: ApplicationState) => state.product.filter.filterText;
+const getIdFilterText = (state: ApplicationState) => state.product.filter.idFilterText;
 
-const getProductsList = (products: Product[], inStockOnly: boolean, filterText: string) => {
+const getProductsList = (products: Product[], inStockOnly: boolean, filterText: string, idFilterTexxt: string) => {
 	return products.filter((product: Product) => {
 		if (!isProductContainsText(product, filterText)) return false;
+		if (!isProductIdContainsText(product, idFilterTexxt)) return false;
 		if (inStockOnly && !product.isInStock) return false;
 		return true;
 	});
@@ -60,14 +65,21 @@ const isProductContainsText = (product: Product, search: string) => {
 	return false;
 };
 
+const isProductIdContainsText = (product: Product, search: string) => {
+	if (isEmpty(search)) return true;
+	if (includes(product.id, search)) return true;
+	return false;
+};
+
 const getProductsSelector = createSelector(
-	[getProducts, getIsInStock, getFilterText],
+	[getProducts, getIsInStock, getFilterText, getIdFilterText],
 	getProductsList
 );
 
 export const productSelector = {
 	getProductsList: getProductsSelector,
 	getFilter,
+	getSelectedProduct,
 	getProduct: (state: ApplicationState, id: string) => {
 		return state.product.products.find((product) => product.id === id);
 	},
@@ -87,6 +99,11 @@ const setProductsReducer = (state: ProductState, action: SetProductsAction) => {
 const setFilterProductReducer = (state: ProductState, action: SetFilterProductAction) => {
 	const { filter } = action;
 	return from(state).merge({ filter });
+};
+
+const setSelectedProductReducer = (state: ProductState, action: SetSelectedProductAction) => {
+	const { selectedProduct } = action;
+	return { ...state, selectedProduct };
 };
 
 const setProductReducer = (state: ProductState, action: SetProductAction) => {
@@ -110,6 +127,7 @@ const setLoadReducer = (state: ProductState) => {
 const productReducer = createReducer<any, AnyAction>(INITIAL_STATE, {
 	[ProductTypes.SET_PRODUCTS]: setProductsReducer,
 	[ProductTypes.SET_FILTER]: setFilterProductReducer,
+	[ProductTypes.SET_SELECTED_PRODUCT]: setSelectedProductReducer,
 	[ProductTypes.SET_PRODUCT]: setProductReducer,
 	[ProductTypes.PRODUCT_ERROR]: setErrorReducer,
 	[ProductTypes.LOAD_PRODUCT]: setLoadReducer,
