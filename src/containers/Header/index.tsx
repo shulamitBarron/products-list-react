@@ -13,12 +13,16 @@ import {
 import './style.scss';
 import { CartItem } from 'actions/redux/cart/interfaces';
 import RoutesPath from 'routes/RoutesPath';
+import { User } from 'actions/redux/userData/interfaces';
+import UserDataActions, { userDataSelector } from 'actions/redux/userData';
 
 interface Props {
 	cartItems: CartItem[];
+	userData: User;
 	clearCart: () => any;
 	translate: TranslateFunction;
 	moveToNextStep: (step?: string) => any;
+	clearUserData: () => void;
 }
 interface HeaderState {
 	cartToggle: boolean;
@@ -43,9 +47,11 @@ class Header extends React.Component<Props, HeaderState> {
 	render() {
 		const {
 			cartItems,
+			userData,
 			clearCart,
 			translate,
-			moveToNextStep
+			moveToNextStep,
+			clearUserData
 		} = this.props;
 		const { cartToggle } = this.state;
 		const cartItemsLength = cartItems && cartItems.length ? cartItems.length : 0;
@@ -59,11 +65,26 @@ class Header extends React.Component<Props, HeaderState> {
 								<Link to={RoutesPath.ROOT}>Home</Link>
 							</li>
 							<li>
-								<Link to={{ pathname: 'product/0' }}> {translate('products.createProduct')}</Link>
+								<Link to={{ pathname: '/product/0' }}> {translate('products.createProduct')}</Link>
 							</li>
 						</ul>
 
 						<ul className="navbar-right">
+							<li>
+								{
+									userData ? (
+										<Link to={RoutesPath.ROOT} onClick={clearUserData}>
+											<i className="fa fa-sign-out mr-1" />
+											{translate('signIn.signOut')}
+										</Link>
+									) : (
+										<Link to={RoutesPath.SIGN_IN}>
+											<i className="fa fa-sign-in mr-1" />
+											{translate('signIn.signIn')}
+										</Link>
+									)
+								}
+							</li>
 							<li>
 								<Button
 									automation-id="open-cart"
@@ -146,10 +167,12 @@ class Header extends React.Component<Props, HeaderState> {
 export default baseConnect(
 	Header,
 	(state: ApplicationState) => ({
-		cartItems: cartSelector.getCartItems(state)
+		cartItems: cartSelector.getCartItems(state),
+		userData: userDataSelector.getUserData(state)
 	}),
 	(dispatch: Dispatch) => ({
 		clearCart: () => dispatch(CartActions.clearCart()),
-		moveToNextStep: (step?: string) => dispatch(FlowManagerActions.moveToNextStep(step))
+		moveToNextStep: (step?: string) => dispatch(FlowManagerActions.moveToNextStep(step)),
+		clearUserData: () => dispatch(UserDataActions.clearUserData()),
 	})
 );

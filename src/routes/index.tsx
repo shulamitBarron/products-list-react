@@ -8,6 +8,7 @@ import App from '../App';
 import DeviceGalleryPage from 'pages/DevicesGallery';
 import Checkout from 'pages/Checkout';
 import FormExample from 'pages/FormExample';
+import SignInForm from 'pages/SignIn';
 import ProductPage from 'pages/Products';
 import Product from 'pages/Product';
 
@@ -19,6 +20,7 @@ export default (
 		<Switch>
 			<Route exact path={RoutesPath.ROOT} component={ProductPage} />
 			<Route exact path={RoutesPath.PRODUCT} component={Product} />
+			<Route exact path={RoutesPath.SIGN_IN} component={SignInForm} />
 			<Route exact path={RoutesPath.DEVICE_GALLERY} step={StepTypes.DEVICE_GALLERY.name} component={DeviceGalleryPage} />
 			<Route exact path={RoutesPath.CHECKOUT} step={StepTypes.CHECKOUT.name} component={Checkout} />
 			<Route exact path={RoutesPath.FORM_EXAMPLE} component={FormExample} />

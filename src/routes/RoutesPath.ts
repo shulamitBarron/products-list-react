@@ -1,6 +1,7 @@
 enum RoutesPath {
 	ROOT = '/',
 	PRODUCT = '/product/:id',
+	SIGN_IN = '/login',
 	DEVICE_GALLERY = '/device-gallery',
 	CHECKOUT = '/checkout',
 	FORM_EXAMPLE = '/form-example',

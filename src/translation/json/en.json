@@ -1,4 +1,14 @@
 {
+  "signIn" : {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "clear": "Clear Values",
+    "firstName": "First Name",
+    "lastname": "Last Name",
+    "phone": "Phone Number",
+    "male": "male",
+    "female": "Female"
+  },
   "deviceGallery": {
     "pageTitle": "Device Gallery",
     "addToCartButton": "Add to Cart",
