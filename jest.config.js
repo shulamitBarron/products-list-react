@@ -1,11 +1,10 @@
 module.exports = {
     "roots": [
-        "<rootDir>/test/tests"
+        "<rootDir>/src"
     ],
     "transform": {
         "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(.*|(\\.|/)(test|spec))\\.tsx?$",
     "moduleFileExtensions": [
         "ts",
         "tsx",
@@ -14,5 +13,7 @@ module.exports = {
         "json",
         "node"
     ],
-    "preset": "jest-puppeteer"
+    "setupFilesAfterEnv": ["./setupTests.js"],
+
+    "snapshotSerializers": ["enzyme-to-json/serializer"],
 }
