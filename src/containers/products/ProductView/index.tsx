@@ -19,7 +19,7 @@ const ProductView: React.FC<Props> = (props: Props) => {
 
 	return (
 		<Card>
-			<Card.Header> {product.name}</Card.Header>
+			<Card.Header>{product.name}</Card.Header>
 			<Card.Body>
 				{product.description}
 				<br />

@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProductTable should render component 1`] = `
+<ForwardRef>
+  <thead>
+    <tr>
+      <th>
+        #
+      </th>
+      <th />
+      <th />
+    </tr>
+  </thead>
+  <tbody>
+    <ProductCategoryRow
+      category="sport"
+      key="sport"
+    />
+    <ProductRow
+      key="5ff81abbe6ab17fd4601c5d8"
+      onProductSelected={[MockFunction]}
+      product={
+        Object {
+          "description": "Minim enim mollit ea id dolor duis irure in. Aliqua eiusmod sunt dolore laboris exercitation elit nostrud cupidatat et irure cupidatat sint aliquip labore. Excepteur cupidatat quis veniam labore elit. Aliqua quis ut sit sint occaecat eiusmod in enim ex ut est. Id officia id labore nostrud velit ipsum consequat ex est reprehenderit. Cupidatat sit sunt esse nulla officia incididunt eu deserunt amet qui dolore ea anim cillum.",
+          "group": "sport",
+          "id": "5ff81abbe6ab17fd4601c5d8",
+          "isInStock": true,
+          "name": "Bray",
+          "picture": "http://placehold.it/32x32",
+          "price": "2638.28",
+          "registered": "2016-03-27 20:32:49",
+        }
+      }
+      selected={false}
+    />
+    <ProductRow
+      key="5ff81abb0e750ff69443daf8"
+      onProductSelected={[MockFunction]}
+      product={
+        Object {
+          "description": "Officia adipisicing velit anim deserunt officia est qui excepteur ullamco laborum. Aute laborum do do do veniam pariatur sint qui labore non fugiat occaecat. Est elit fugiat commodo tempor cupidatat duis culpa ipsum duis labore in et ut mollit. Tempor ipsum deserunt ad proident eu elit incididunt exercitation nisi et fugiat ut ut laborum. Ullamco voluptate reprehenderit qui laboris elit pariatur id cillum non pariatur ullamco consequat est. Consectetur occaecat mollit veniam reprehenderit.",
+          "group": "sport",
+          "id": "5ff81abb0e750ff69443daf8",
+          "isInStock": true,
+          "name": "Hewitt",
+          "picture": "http://placehold.it/32x32",
+          "price": "3554.61",
+          "registered": "2018-12-14 15:32:56",
+        }
+      }
+      selected={false}
+    />
+  </tbody>
+</ForwardRef>
+`;
