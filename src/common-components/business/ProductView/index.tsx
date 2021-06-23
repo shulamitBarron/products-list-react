@@ -7,14 +7,19 @@ import { Link } from 'react-router-dom';
 interface Props {
 	product: Product;
 	translate: TranslateFunction;
-	deleteProduct: (id: string) => void;
+	deleteProduct?: (id: string) => void;
+	isEditble: boolean;
 }
 
 const ProductView: React.FC<Props> = (props: Props) => {
-	const { product, translate, deleteProduct } = props;
+	const {
+		product, translate, deleteProduct, isEditble
+	} = props;
 
 	const handleDelete = () => {
-		deleteProduct(product.id);
+		if (deleteProduct) {
+			deleteProduct(product.id);
+		}
 	};
 
 	return (
@@ -22,10 +27,16 @@ const ProductView: React.FC<Props> = (props: Props) => {
 			<Card.Header>{product.name}</Card.Header>
 			<Card.Body>
 				{product.description}
-				<br />
-				<Link to={{ pathname: `product/${product.id}` }}> {translate('products.updateProduct')}</Link>
-				<br />
-				<Button onClick={handleDelete}>{translate('products.deleteProduct')}</Button>
+				{
+					isEditble && (
+						<>
+							<br />
+							<Link to={{ pathname: `product/${product.id}` }}> {translate('products.updateProduct')}</Link>
+							<br />
+							<Button onClick={handleDelete}>{translate('products.deleteProduct')}</Button>
+						</>
+					)
+				}
 			</Card.Body>
 			<Card.Img src={product.picture} />
 		</Card>

@@ -11,7 +11,7 @@ import { Dispatch } from 'redux';
 
 import ProductSearchBar from '../ProductSearchBar';
 import ProductTable from '../ProductTable';
-import ProductView from '../ProductView';
+import ProductView from 'common-components/business/ProductView';
 
 interface Props extends InjectedFormProps {
 	translate: TranslateFunction;
@@ -91,7 +91,7 @@ class FilterableProductTable extends React.PureComponent<Props & OwnProps> {
 						/>
 					</Col>
 					<Col lg={4}>
-						{selectedProduct != null && <ProductView translate={translate} product={selectedProduct} deleteProduct={deleteProduct} />}
+						{selectedProduct != null && <ProductView translate={translate} product={selectedProduct} deleteProduct={deleteProduct} isEditble />}
 					</Col>
 				</Row>
 			</Container>

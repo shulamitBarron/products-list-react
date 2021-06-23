@@ -67,6 +67,13 @@ class Header extends React.Component<Props, HeaderState> {
 							<li>
 								<Link to={{ pathname: '/product/0' }}> {translate('products.createProduct')}</Link>
 							</li>
+							{
+								userData && (
+									<li>
+										<Link to={RoutesPath.ORDER_LIST}> {translate('orders.title')}</Link>
+									</li>
+								)
+							}
 						</ul>
 
 						<ul className="navbar-right">

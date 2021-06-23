@@ -1,5 +1,5 @@
 {
-  "signIn" : {
+  "signIn": {
     "signIn": "Sign In",
     "signOut": "Sign Out",
     "clear": "Clear Values",
@@ -33,5 +33,16 @@
     "createProduct": "Create Product",
     "updateProduct": "Update Product",
     "deleteProduct": "Delete Product"
+  },
+  "orders": {
+    "title": "Order List",
+    "orderNum": "Order #",
+    "date": "Date",
+    "address": "Address",
+    "deliveryMethod": "Delivery Method",
+    "status": "Status",
+    "total": "Total",
+    "paymentMethod": "Payment Method",
+    "items": "Items"
   }
 }

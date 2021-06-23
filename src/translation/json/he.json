@@ -33,5 +33,16 @@
     "createProduct": "יצירת פריט",
     "updateProduct": "עדכון פריט",
     "deleteProduct": "מחיקת פריט"
+  },
+  "orders": {
+    "title": "Order List",
+    "orderNum": "Order #",
+    "date": "Date",
+    "address": "Address",
+    "deliveryMethod": "Delivery Method",
+    "status": "Status",
+    "total": "Total",
+    "paymentMethod": "Payment Method",
+    "items": "Items"
   }
 }
