@@ -24,4 +24,4 @@ const ProductRow: React.FC<Props> = (props: Props) => {
 	);
 };
 
-export default ProductRow;
+export default React.memo(ProductRow);

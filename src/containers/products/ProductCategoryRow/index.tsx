@@ -15,4 +15,4 @@ const ProductCategoryRow: React.FC<Props> = (props: Props) => {
 	);
 };
 
-export default ProductCategoryRow;
+export default React.memo(ProductCategoryRow);
